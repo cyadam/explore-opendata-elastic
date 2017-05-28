@@ -1,0 +1,19 @@
+{
+  "order": 0,
+  "template": "bureaux_de_votes",
+  "settings": {
+    "index": {
+      "number_of_shards": "4"
+    }
+  },
+  "mappings": {
+    "bureaux_de_votes": {
+      "properties": {
+        "location": {
+          "type": "geo_point"
+        }
+      }
+    }
+  },
+  "aliases": {}
+}

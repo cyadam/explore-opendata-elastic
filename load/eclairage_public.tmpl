@@ -1,0 +1,19 @@
+{
+  "order": 0,
+  "template": "eclairage_public",
+  "settings": {
+    "index": {
+      "number_of_shards": "4"
+    }
+  },
+  "mappings": {
+    "eclairage_public": {
+      "properties": {
+        "location": {
+          "type": "geo_point"
+        }
+      }
+    }
+  },
+  "aliases": {}
+}
