@@ -5,6 +5,7 @@ $installLocation = "C:\elastic"
 $stackVersion = "5.4.0"
 $cerebroVersion = "0.6.5"
 $javaHome = "C:\Java\jdk1.8.0_65"
+$env:JAVA_HOME = "$javaHome"
 $baseUrl = "https://artifacts.elastic.co/downloads"
 $cerebroUrl = "https://github.com/lmenezes/cerebro/releases/download"
 
