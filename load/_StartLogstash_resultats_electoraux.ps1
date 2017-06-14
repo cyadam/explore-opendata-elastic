@@ -1,7 +1,7 @@
 #set-executionpolicy remotesigned
 $donnees = "resultats_electoraux"
 $donneesUrl = "https://opendata.paris.fr/explore/dataset/resultats_electoraux/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true"
-$stackVersion = "5.4.0"
+$stackVersion = "5.4.1"
 $javaHome = "C:\Java\jdk1.8.0_65"
 $env:JAVA_HOME = "$javaHome"
 $installLocation = "C:\elastic\logstash-$stackVersion"

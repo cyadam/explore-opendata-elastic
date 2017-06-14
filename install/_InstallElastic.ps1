@@ -2,7 +2,7 @@
 Write-Host "Installation started" -ForeGround Green
 Set-Location -Path $PSScriptRoot
 $installLocation = "C:\elastic"
-$stackVersion = "5.4.0"
+$stackVersion = "5.4.1"
 $cerebroVersion = "0.6.5"
 $javaHome = "C:\Java\jdk1.8.0_65"
 $env:JAVA_HOME = "$javaHome"
@@ -40,12 +40,12 @@ Write-Host "Getting plugin $pluginElasticsearchFilter" -ForeGround Yellow
 Set-Location -Path "$installLocation\logstash-$stackVersion"
 if (!(Test-Path $logstashElasticsearchFilterZip)){
 	bin/logstash-plugin install $pluginElasticsearchFilter
-#	bin/logstash-plugin prepare-offline-pack --output $logstashElasticsearchFilterZip $pluginElasticsearchFilter
-#	bin/logstash-plugin remove $pluginElasticsearchFilter
+	bin/logstash-plugin prepare-offline-pack --output $logstashElasticsearchFilterZip $pluginElasticsearchFilter
+	bin/logstash-plugin remove $pluginElasticsearchFilter
 }
 Write-Host "Installing plugin $pluginElasticsearchFilter" -ForeGround Yellow
 $pluginLocation = $logstashElasticsearchFilterZip -replace "\\","/"
-#bin/logstash-plugin install file:///$pluginLocation
+bin/logstash-plugin install file:///$pluginLocation
 if(!($?)){
 	Write-Host "Failed to install" -ForeGround Red
 	Exit(1)

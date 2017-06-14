@@ -1,6 +1,6 @@
 #set-executionpolicy remotesigned
 $installLocation = "C:\elastic"
-$stackVersion = "5.4.0"
+$stackVersion = "5.4.1"
 $javaHome = "C:\Java\jdk1.8.0_65"
 $env:JAVA_HOME = "$javaHome"
 Set-Location -Path "$installLocation\elasticsearch-$stackVersion"
