@@ -1,0 +1,20 @@
+{
+	"stack": {
+		"install": "C:\\elastic",
+		"binaries": "C:\\elastic\\binaries",
+		"version": "5.5.0",
+		"os":"windows-x86",
+		"url": "https://artifacts.elastic.co/downloads",
+		"plugin": {
+			"logstash": ["logstash-filter-elasticsearch"],
+			"elasticsearch": ["analysis-icu"]
+		}
+	},
+	"cerebro": {
+		"version": "0.6.5",
+		"url": "https://github.com/lmenezes/cerebro/releases/download"
+	},
+	"java": {
+		"home": "C:\\Java\\jdk1.8.0_65"
+	}
+}
