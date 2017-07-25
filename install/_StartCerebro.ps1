@@ -1,9 +1,11 @@
 #set-executionpolicy remotesigned
-$installLocation = "C:\elastic"
-$cerebroVersion = "0.6.5"
+Write-Host "Starting Cerebro" -ForeGround Green
+Set-Location -Path $PSScriptRoot
+$params = Get-Content "..\configuration.json" | ConvertFrom-Json
+$installLocation = $params.stack.install
+$cerebroVersion = $params.cerebro.version
 Set-Location -Path "$installLocation\cerebro-$cerebroVersion"
 if (Test-Path "$installLocation\cerebro-$cerebroVersion"){
     Remove-Item RUNNING_PID
 }
-Write-Host "Starting cerebro" -ForeGround Red
-Start-Process bin\cerebro
+bin\cerebro

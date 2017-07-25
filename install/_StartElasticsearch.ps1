@@ -1,8 +1,10 @@
 #set-executionpolicy remotesigned
-$installLocation = "C:\elastic"
-$stackVersion = "5.4.1"
-$javaHome = "C:\Java\jdk1.8.0_65"
+Write-Host "Starting Elasticsearch" -ForeGround Green
+Set-Location -Path $PSScriptRoot
+$params = Get-Content "..\configuration.json" | ConvertFrom-Json
+$installLocation = $params.stack.install
+$stackVersion = $params.stack.version
+$javaHome = $params.java.home
 $env:JAVA_HOME = "$javaHome"
 Set-Location -Path "$installLocation\elasticsearch-$stackVersion"
-Write-Host "Starting elasticsearch" -ForeGround Red
-Start-Process bin\elasticsearch
+bin\elasticsearch
