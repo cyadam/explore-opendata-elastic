@@ -3,311 +3,525 @@
   "template": "sirene",
   "settings": {
     "index": {
-      "number_of_shards": "1"
+      "analysis": {
+        "filter": {
+          "french_stop": {
+            "type": "stop",
+            "stopwords": "_french_"
+          },
+          "french_stemmer": {
+            "type": "stemmer",
+            "language": "french"
+          },
+          "french_elision": {
+            "type": "elision",
+            "articles": [
+              "l",
+              "m",
+              "t",
+              "qu",
+              "n",
+              "s",
+              "j",
+              "d",
+              "c",
+              "jusqu",
+              "quoiqu",
+              "lorsqu",
+              "puisqu"
+            ],
+            "articles_case": "true"
+          }
+        },
+        "analyzer": {
+          "french_analyzer": {
+            "filter": [
+              "french_elision",
+              "icu_folding",
+              "french_stop",
+              "french_stemmer"
+            ],
+            "tokenizer": "icu_tokenizer"
+          }
+        }
+      },
+      "number_of_shards": "4"
     }
   },
   "mappings": {
     "sirene": {
       "properties": {
-        "SIREN": {
-          "type": "keyword"
-        },
-        "NIC": {
-          "type": "keyword"
-        },
-        "L1_NORMALISEE": {
-          "type": "keyword"
-        },
-        "L2_NORMALISEE": {
-          "type": "keyword"
-        },
-        "L3_NORMALISEE": {
-          "type": "keyword"
-        },
-        "L4_NORMALISEE": {
-          "type": "keyword"
-        },
-        "L5_NORMALISEE": {
-          "type": "keyword"
-        },
-        "L6_NORMALISEE": {
-          "type": "keyword"
-        },
-        "L7_NORMALISEE": {
-          "type": "keyword"
-        },
-        "L1_DECLAREE": {
-          "type": "keyword"
-        },
-        "L2_DECLAREE": {
-          "type": "keyword"
-        },
-        "L3_DECLAREE": {
-          "type": "keyword"
-        },
-        "L4_DECLAREE": {
-          "type": "keyword"
-        },
-        "L5_DECLAREE": {
-          "type": "keyword"
-        },
-        "L6_DECLAREE": {
-          "type": "keyword"
-        },
-        "L7_DECLAREE": {
-          "type": "keyword"
-        },
-        "NUMVOIE": {
-          "type": "keyword"
-        },
-        "INDREP": {
-          "type": "keyword"
-        },
-        "TYPVOIE": {
-          "type": "keyword"
-        },
-        "LIBVOIE": {
-          "type": "keyword"
-        },
-        "CODPOS": {
-          "type": "keyword"
-        },
-        "CEDEX": {
-          "type": "keyword"
-        },
-        "RPET": {
-          "type": "keyword"
-        },
-        "LIBREG": {
-          "type": "keyword"
-        },
-        "DEPET": {
-          "type": "keyword"
-        },
-        "ARRONET": {
-          "type": "keyword"
-        },
-        "CTONET": {
-          "type": "keyword"
-        },
-        "COMET": {
-          "type": "keyword"
-        },
-        "LIBCOM": {
-          "type": "keyword"
-        },
-        "DU": {
-          "type": "keyword"
-        },
-        "TU": {
-          "type": "keyword"
-        },
-        "UU": {
-          "type": "keyword"
-        },
-        "EPCI": {
-          "type": "keyword"
-        },
-        "TCD": {
-          "type": "keyword"
-        },
-        "ZEMET": {
-          "type": "keyword"
-        },
-        "SIEGE": {
-          "type": "keyword"
-        },
-        "ENSEIGNE": {
-          "type": "keyword"
-        },
-        "IND_PUBLIPO": {
-          "type": "keyword"
+        "Identifiant de l'entreprise": {
+          "type": "keyword"
+        },
+        "Numéro interne de classement de l'établissement": {
+          "type": "keyword"
+        },
+        "Première ligne de l’adressage de l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Deuxième ligne de l’adressage de l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Troisième ligne de l’adressage de l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Quatrième ligne de l’adressage de l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Cinquième ligne de l’adressage de l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Sixième ligne de l’adressage de l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Septième ligne de l’adressage de l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Première ligne de l’adressage déclaré pour l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Deuxième ligne de l’adressage déclaré pour l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Troisième ligne de l’adressage déclaré pour l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
         },
-        "DIFFCOM": {
-          "type": "keyword"
-        },
-        "AMINTRET": {
-          "type": "keyword"
-        },
-        "NATETAB": {
-          "type": "keyword"
-        },
-        "LIBNATETAB": {
-          "type": "keyword"
-        },
-        "APET700": {
-          "type": "keyword"
-        },
-        "LIBAPET": {
-          "type": "keyword"
-        },
-        "DAPET": {
-          "type": "keyword"
-        },
-        "TEFET": {
-          "type": "keyword"
-        },
-        "LIBTEFET": {
-          "type": "keyword"
-        },
-        "EFETCENT": {
-          "type": "keyword"
-        },
-        "DEFET": {
-          "type": "keyword"
-        },
-        "ORIGINE": {
-          "type": "keyword"
-        },
-        "DCRET": {
-          "type": "keyword"
-        },
-        "DDEBACT": {
-          "type": "keyword"
-        },
-        "ACTIVNAT": {
-          "type": "keyword"
-        },
-        "LIEUACT": {
-          "type": "keyword"
-        },
-        "ACTISURF": {
-          "type": "keyword"
-        },
-        "SAISONAT": {
-          "type": "keyword"
-        },
-        "MODET": {
-          "type": "keyword"
-        },
-        "PRODET": {
-          "type": "keyword"
-        },
-        "PRODPART": {
-          "type": "keyword"
-        },
-        "AUXILT": {
-          "type": "keyword"
-        },
-        "NOMEN_LONG": {
-          "type": "keyword"
-        },
-        "SIGLE": {
-          "type": "keyword"
-        },
-        "NOM": {
-          "type": "keyword"
-        },
-        "PRENOM": {
-          "type": "keyword"
-        },
-        "CIVILITE": {
-          "type": "keyword"
-        },
-        "RNA": {
-          "type": "keyword"
-        },
-        "NICSIEGE": {
-          "type": "keyword"
+        "Quatrième ligne de l’adressage déclaré pour l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
         },
-        "RPEN": {
-          "type": "keyword"
-        },
-        "DEPCOMEN": {
-          "type": "keyword"
-        },
-        "ADR_MAIL": {
-          "type": "keyword"
-        },
-        "NJ": {
-          "type": "keyword"
-        },
-        "LIBNJ": {
-          "type": "keyword"
+        "Cinquième ligne de l’adressage déclaré pour l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
         },
-        "APEN700": {
-          "type": "keyword"
-        },
-        "LIBAPEN": {
-          "type": "keyword"
-        },
-        "DAPEN": {
-          "type": "keyword"
+        "Sixième ligne de l’adressage déclaré pour l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
         },
-        "APRM": {
-          "type": "keyword"
-        },
-        "ESS": {
-          "type": "keyword"
+        "Septième ligne de l’adressage déclaré pour l’établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
         },
-        "DATEESS": {
+        "Numéro dans la voie": {
           "type": "keyword"
         },
-        "TEFEN": {
+        "Indice de répétition": {
           "type": "keyword"
         },
-        "LIBTEFEN": {
+        "Type de voie de localisation de l'établissement": {
           "type": "keyword"
         },
-        "EFENCENT": {
-          "type": "keyword"
+        "Libellé de voie de localisation de l'établissement": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
         },
-        "DEFEN": {
+        "Code postal": {
           "type": "keyword"
         },
-        "CATEGORIE": {
+        "Code CEDEX": {
           "type": "keyword"
         },
-        "DCREN": {
+        "Région de localisation de l'établissement": {
           "type": "keyword"
         },
-        "AMINTREN": {
+        "Département de localisation de l'établissement": {
           "type": "keyword"
         },
-        "MONOACT": {
+        "Arrondissement de localisation de l'établissement": {
           "type": "keyword"
         },
-        "MODEN": {
+        "Canton de localisation de l'établissement": {
           "type": "keyword"
         },
-        "PRODEN": {
+        "Commune de localisation de l'établissement": {
           "type": "keyword"
         },
-        "ESAANN": {
+        "Libellé de la commune de localisation de l'établissement": {
           "type": "keyword"
         },
-        "TCA": {
+        "Département de l'unité urbaine de la localisation de l'établissement": {
           "type": "keyword"
         },
-        "ESAAPEN": {
+        "Taille de l'unité urbaine": {
           "type": "keyword"
         },
-        "ESASEC1N": {
+        "Numéro de l'unité urbaine": {
           "type": "keyword"
         },
-        "ESASEC2N": {
+        "Localisation de l'établissement dans un établissement public de coopération intercommunale": {
           "type": "keyword"
         },
-        "ESASEC3N": {
+        "Tranche de commune détaillée": {
           "type": "keyword"
         },
-        "ESASEC4N": {
+        "Zone d'emploi": {
           "type": "keyword"
         },
-        "VMAJ": {
+        "Qualité de siège ou non de l'établissement": {
           "type": "keyword"
         },
-        "VMAJ1": {
-          "type": "keyword"
+        "Enseigne ou nom de l'exploitation": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
         },
-        "VMAJ2": {
+        "Indicateur du champ du publipostage": {
           "type": "keyword"
         },
-        "VMAJ3": {
+        "Statut de diffusion de l'établissement": {
           "type": "keyword"
         },
-        "DATEMAJ": {
+        "Année et mois d'introduction de l'établissement dans la base de diffusion": {
           "type": "date"
+        },
+        "Nature de l'établissement d'un entrepreneur individuel": {
+          "type": "keyword"
+        },
+        "Libellé de la nature de l'établissement": {
+          "type": "keyword"
+        },
+        "Activité principale de l'établissement": {
+          "type": "keyword"
+        },
+        "Libellé de l'activité principale de l'établissement": {
+          "type": "keyword"
+        },
+        "Année de validité de l'activité principale de l'établissement": {
+          "type": "date"
+        },
+        "Tranche d'effectif salarié de l'établissement": {
+          "type": "keyword"
+        },
+        "Libellé de la tranche d'effectif de l'établissement": {
+          "type": "keyword"
+        },
+        "Effectif salarié de l'établissement à la centaine près": {
+          "type": "keyword"
+        },
+        "Année de validité de l'effectif salarié de l'établissement": {
+          "type": "date"
+        },
+        "Origine de la création de l'établissement": {
+          "type": "keyword"
+        },
+        "Année et mois de création de l'établissement": {
+          "type": "date"
+        },
+        "Date de début d’activité": {
+          "type": "date"
+        },
+        "Nature de l'activité de l'établissement": {
+          "type": "keyword"
+        },
+        "Lieu de l'activité de l'établissement": {
+          "type": "keyword"
+        },
+        "Type de magasin": {
+          "type": "keyword"
+        },
+        "Caractère saisonnier ou non de l'activité de l'établissement": {
+          "type": "keyword"
+        },
+        "Modalité de l'activité principale de l'établissement": {
+          "type": "keyword"
+        },
+        "Caractère productif de l'établissement": {
+          "type": "keyword"
+        },
+        "Participation particulière à la production de l'établissement": {
+          "type": "keyword"
+        },
+        "Caractère auxiliaire de l'activité de l'établissement": {
+          "type": "keyword"
+        },
+        "Nom ou raison sociale de l'entreprise": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Sigle de l'entreprise": {
+          "type": "keyword"
+        },
+        "Nom de naissance": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Prénom": {
+          "type": "keyword",
+		  "fields": {
+            "french_analyzer": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french_analyzer"
+			}
+		  }
+        },
+        "Civilité des entrepreneurs individuels": {
+          "type": "keyword"
+        },
+        "Numéro d’identification au répertoire national des associations": {
+          "type": "keyword"
+        },
+        "Numéro interne de classement de l'établissement siège": {
+          "type": "keyword"
+        },
+        "Région de localisation du siège de l'entreprise": {
+          "type": "keyword"
+        },
+        "Département et commune de localisation du siège de l'entreprise": {
+          "type": "keyword"
+        },
+        "Adresse mail": {
+          "type": "keyword"
+        },
+        "Nature juridique de l'entreprise": {
+          "type": "keyword"
+        },
+        "Libellé de la nature juridique": {
+          "type": "keyword"
+        },
+        "Activité principale de l'entreprise": {
+          "type": "keyword"
+        },
+        "Libellé de l'activité principale de l'entreprise": {
+          "type": "keyword"
+        },
+        "Année de validité de l'activité principale de l'entreprise": {
+          "type": "date"
+        },
+        "Activité principale au registre des métiers": {
+          "type": "keyword"
+        },
+        "Appartenance au champ de l’économie sociale et solidaire": {
+          "type": "keyword"
+        },
+        "Date ESS": {
+          "type": "date"
+        },
+        "Tranche d'effectif salarié de l'entreprise": {
+          "type": "keyword"
+        },
+        "Libellé de la tranche d'effectif de l'entreprise": {
+          "type": "keyword"
+        },
+        "Effectif salarié de l'entreprise à la centaine près": {
+          "type": "keyword"
+        },
+        "Année de validité de l'effectif salarié de l'entreprise": {
+          "type": "date"
+        },
+        "Catégorie d'entreprise": {
+          "type": "keyword"
+        },
+        "Date de création de l'entreprise": {
+          "type": "date"
+        },
+        "Année et mois d'introduction de l'entreprise dans la base de diffusion": {
+          "type": "date"
+        },
+        "Indice de monoactivité de l'entreprise": {
+          "type": "keyword"
+        },
+        "Modalité de l'activité principale de l'entreprise": {
+          "type": "keyword"
+        },
+        "Caractère productif de l'entreprise": {
+          "type": "keyword"
+        },
+        "Année de validité des rubriques de niveau entreprise en provenance de l'ESA": {
+          "type": "date"
+        },
+        "Tranche de chiffre d'affaires pour les entreprises enquêtées par l'ESA": {
+          "type": "keyword"
+        },
+        "Activité principale de l'entreprise issue de l'ESA": {
+          "type": "keyword"
+        },
+        "Première activité secondaire déclarée dans l'ESA": {
+          "type": "keyword"
+        },
+        "Deuxième activité secondaire déclarée dans l'ESA": {
+          "type": "keyword"
+        },
+        "Troisième activité secondaire déclarée dans l'ESA": {
+          "type": "keyword"
+        },
+        "Quatrième activité secondaire déclarée dans l'ESA": {
+          "type": "keyword"
+        },
+        "Nature de la mise à jour (création, suppression, modification)": {
+          "type": "keyword"
+        },
+        "Indicateur de mise à jour n1": {
+          "type": "keyword"
+        },
+        "Indicateur de mise à jour n2": {
+          "type": "keyword"
+        },
+        "Indicateur de mise à jour n3": {
+          "type": "keyword"
+        },
+        "Date de traitement de la mise à jour": {
+          "type": "date"
+        },
+        "SIRET": {
+          "type": "keyword"
+        },
+        "Libellé de la taille de l'unité urbaine": {
+          "type": "keyword"
+        },
+        "Libellé de l'activité principale de l'entreprise issue de l'ESA": {
+          "type": "keyword"
+        },
+        "Libellé de l'indice de monoactivité de l'entreprise": {
+          "type": "keyword"
+        },
+        "Libellé de l'origine de la création de l'établissement": {
+          "type": "keyword"
+        },
+        "Libellé de la tranche de chiffre d'affaires pour les entreprises enquêtées par l'ESA": {
+          "type": "keyword"
+        },
+        "Libellé de la nature de l'activité de l'établissement": {
+          "type": "keyword"
+        },
+        "Libellé de la modalité de l'activité principale de l'établissement": {
+          "type": "keyword"
+        },
+        "Libellé du type de magasin": {
+          "type": "keyword"
+        },
+        "Libellé de la participation particulière à la production de l'établissement": {
+          "type": "keyword"
+        },
+        "Libellé de l'appartenance au champ de l’économie sociale et solidaire": {
+          "type": "keyword"
+        },
+        "Libellé de la modalité de l'activité principale de l'entreprise": {
+          "type": "keyword"
+        },
+        "Libellé de la région": {
+          "type": "keyword"
+        },
+        "location": {
+          "type": "geo_point"
         }
       }
     }
