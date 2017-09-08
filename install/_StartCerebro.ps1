@@ -5,7 +5,4 @@ $params = Get-Content "..\configuration.json" | ConvertFrom-Json
 $installLocation = $params.stack.install
 $cerebroVersion = $params.cerebro.version
 Set-Location -Path "$installLocation\cerebro-$cerebroVersion"
-if (Test-Path "$installLocation\cerebro-$cerebroVersion"){
-    Remove-Item RUNNING_PID
-}
 bin\cerebro
