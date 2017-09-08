@@ -2,8 +2,8 @@
 	"stack": {
 		"install": "C:\\elastic",
 		"binaries": "C:\\elastic\\binaries",
-		"version": "5.5.0",
-		"os":"windows-x86",
+		"version": "6.0.0-beta2",
+		"os":"windows-x86_64",
 		"url": "https://artifacts.elastic.co/downloads",
 		"plugin": {
 			"logstash": ["logstash-filter-elasticsearch"],
@@ -11,7 +11,7 @@
 		}
 	},
 	"cerebro": {
-		"version": "0.6.5",
+		"version": "0.6.6",
 		"url": "https://github.com/lmenezes/cerebro/releases/download"
 	},
 	"java": {
