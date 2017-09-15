@@ -5,8 +5,10 @@
 		"version": "6.0.0-beta2",
 		"os":"windows-x86_64",
 		"url": "https://artifacts.elastic.co/downloads",
-		"plugin": {
+		"xpack": true,
+		"plugins": {
 			"logstash": ["logstash-filter-elasticsearch"],
+			"kibana": [ ],
 			"elasticsearch": ["analysis-icu"]
 		}
 	},
@@ -15,6 +17,6 @@
 		"url": "https://github.com/lmenezes/cerebro/releases/download"
 	},
 	"java": {
-		"home": "C:\\Java\\jdk1.8.0_65"
+		"home": "C:\\Java\\jdk1.8.0_144"
 	}
 }
