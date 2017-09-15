@@ -36,8 +36,26 @@ if ((Get-FileHash -Path $logstashZip -Algorithm SHA1).Hash -ne (Get-Content "$lo
 }
 if (!(Test-Path "$installLocation\logstash-$stackVersion")){
 	Expand-Archive -Path $logstashZip -DestinationPath $installLocation
+	if ($params.stack.xpack) {
+		$xpackLogstashZip = "$binariesLocation\logstash-x-pack-$stackVersion.zip"
+		Write-Host "Getting Logstash X-Pack $stackVersion" -ForeGround Yellow
+		if (!(Test-Path $xpackLogstashZip)){
+			Invoke-WebRequest -Uri "$baseUrl/logstash-plugins/x-pack/x-pack-$stackVersion.zip" -OutFile $xpackLogstashZip
+		}
+		if (!(Test-Path "$xpackLogstashZip.sha1")){
+			Invoke-WebRequest -Uri "$baseUrl/logstash-plugins/x-pack/x-pack-$stackVersion.zip.sha1" -OutFile "$xpackLogstashZip.sha1"
+		}
+		Write-Host "Installing Logstash X-Pack $stackVersion" -ForeGround Yellow
+		$pluginLocation = $xpackLogstashZip -replace "\\","/"
+		Set-Location -Path "$installLocation\logstash-$stackVersion"
+		bin/logstash-plugin install file:///$pluginLocation
+		if(!($?)){
+			Write-Host "Failed to install" -ForeGround Red
+			Exit(1)
+		}
+	}
 }
-foreach ($pluginLogstash in $params.stack.plugin.logstash) {
+foreach ($pluginLogstash in $params.stack.plugins.logstash) {
 	$pluginLogstashZip = "$binariesLocation\$pluginLogstash-$stackVersion.zip"
 	Write-Host "Getting plugin $pluginLogstash" -ForeGround Yellow
 	Set-Location -Path "$installLocation\logstash-$stackVersion"
@@ -73,13 +91,31 @@ if ((Get-FileHash -Path $elasticZip -Algorithm SHA1).Hash -ne (Get-Content "$ela
 if (!(Test-Path "$installLocation\elasticsearch-$stackVersion")){
 	Expand-Archive -Path $elasticZip -DestinationPath $installLocation
 	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "node.max_local_storage_nodes: 5"
-	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.graph.enabled: true"
-	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.ml.enabled: false"
-	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.monitoring.enabled: false"
-	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.security.enabled: false"
-	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.watcher.enabled: false"
+	if ($params.stack.xpack) {
+		$xpackElasticsearchZip = "$binariesLocation\elasticsearch-x-pack-$stackVersion.zip"
+		Write-Host "Getting Elasticsearch X-Pack $stackVersion" -ForeGround Yellow
+		if (!(Test-Path $xpackElasticsearchZip)){
+			Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/x-pack/x-pack-$stackVersion.zip" -OutFile $xpackElasticsearchZip
+		}
+		if (!(Test-Path "$xpackElasticsearchZip.sha1")){
+			Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/x-pack/x-pack-$stackVersion.zip.sha1" -OutFile "$xpackElasticsearchZip.sha1"
+		}
+		Write-Host "Installing Elasticsearch X-Pack $stackVersion" -ForeGround Yellow
+		$pluginLocation = $xpackElasticsearchZip -replace "\\","/"
+		Set-Location -Path "$installLocation\elasticsearch-$stackVersion"
+		bin/elasticsearch-plugin install --batch file:///$pluginLocation
+		if(!($?)){
+			Write-Host "Failed to install" -ForeGround Red
+			Exit(1)
+		}
+		Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.graph.enabled: true"
+		Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.ml.enabled: false"
+		Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.monitoring.enabled: false"
+		Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.security.enabled: false"
+		Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.watcher.enabled: false"
+	}
 }
-foreach ($pluginElasticsearch in $params.stack.plugin.elasticsearch) {
+foreach ($pluginElasticsearch in $params.stack.plugins.elasticsearch) {
 	$pluginElasticsearchZip = "$binariesLocation\$pluginElasticsearch-$stackVersion.zip"
 	Write-Host "Getting plugin $pluginElasticsearch" -ForeGround Yellow
 	if (!(Test-Path $pluginElasticsearchZip)){
@@ -127,44 +163,29 @@ if ((Get-FileHash -Path $kibanaZip -Algorithm SHA1).Hash -ne (Get-Content "$kiba
 if (!(Test-Path "$installLocation\kibana-$stackVersion-$os")){
 	Expand-Archive -Path $kibanaZip -DestinationPath $installLocation
 	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "tilemap.options.maxZoom: 18"
-	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.graph.enabled: true"
-	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.ml.enabled: false"
-	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.monitoring.enabled: false"
-	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.reporting.enabled: false"
-	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.security.enabled: false"
-}
-########################X-PACK######################
-$xpackElasticsearchZip = "$binariesLocation\elasticsearch-x-pack-$stackVersion.zip"
-Write-Host "Getting Elasticsearch X-Pack $stackVersion" -ForeGround Yellow
-if (!(Test-Path $xpackElasticsearchZip)){
-	Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/x-pack/x-pack-$stackVersion.zip" -OutFile $xpackElasticsearchZip
-}
-if (!(Test-Path "$xpackElasticsearchZip.sha1")){
-	Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/x-pack/x-pack-$stackVersion.zip.sha1" -OutFile "$xpackElasticsearchZip.sha1"
-}
-Write-Host "Installing Elasticsearch X-Pack $stackVersion" -ForeGround Yellow
-$pluginLocation = $xpackElasticsearchZip -replace "\\","/"
-Set-Location -Path "$installLocation\elasticsearch-$stackVersion"
-bin/elasticsearch-plugin install --batch file:///$pluginLocation
-if(!($?)){
-	Write-Host "Failed to install" -ForeGround Red
-	Exit(1)
-}
-$xpackKibanaZip = "$binariesLocation\kibana-x-pack-$stackVersion.zip"
-Write-Host "Getting Kibana X-Pack $stackVersion" -ForeGround Yellow
-if (!(Test-Path $xpackKibanaZip)){
-	Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/x-pack/x-pack-$stackVersion.zip" -OutFile $xpackKibanaZip
-}
-if (!(Test-Path "$xpackKibanaZip.sha1")){
-	Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/x-pack/x-pack-$stackVersion.zip.sha1" -OutFile "$xpackKibanaZip.sha1"
-}
-Write-Host "Installing Kibana X-Pack $stackVersion" -ForeGround Yellow
-$pluginLocation = $xpackKibanaZip -replace "\\","/"
-Set-Location -Path "$installLocation\kibana-$stackVersion-$os"
-bin/kibana-plugin install file:///$pluginLocation
-if(!($?)){
-	Write-Host "Failed to install" -ForeGround Red
-	Exit(1)
+	if ($params.stack.xpack) {
+		$xpackKibanaZip = "$binariesLocation\kibana-x-pack-$stackVersion.zip"
+		Write-Host "Getting Kibana X-Pack $stackVersion" -ForeGround Yellow
+		if (!(Test-Path $xpackKibanaZip)){
+			Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/x-pack/x-pack-$stackVersion.zip" -OutFile $xpackKibanaZip
+		}
+		if (!(Test-Path "$xpackKibanaZip.sha1")){
+			Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/x-pack/x-pack-$stackVersion.zip.sha1" -OutFile "$xpackKibanaZip.sha1"
+		}
+		Write-Host "Installing Kibana X-Pack $stackVersion" -ForeGround Yellow
+		$pluginLocation = $xpackKibanaZip -replace "\\","/"
+		Set-Location -Path "$installLocation\kibana-$stackVersion-$os"
+		bin/kibana-plugin install file:///$pluginLocation
+		if(!($?)){
+			Write-Host "Failed to install" -ForeGround Red
+			Exit(1)
+		}
+		Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.graph.enabled: true"
+		Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.ml.enabled: false"
+		Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.monitoring.enabled: false"
+		Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.reporting.enabled: false"
+		Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.security.enabled: false"
+	}
 }
 Set-Location -Path $PSScriptRoot
 Write-Host "Installation completed" -ForeGround Green
