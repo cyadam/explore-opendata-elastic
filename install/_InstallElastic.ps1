@@ -187,5 +187,23 @@ if (!(Test-Path "$installLocation\kibana-$stackVersion-$os")){
 		Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.security.enabled: false"
 	}
 }
+foreach ($pluginKibana in $params.stack.plugins.kibana) {
+	$pluginKibanaZip = "$binariesLocation\$pluginKibana-$stackVersion.zip"
+	Write-Host "Getting plugin $pluginKibana" -ForeGround Yellow
+	if (!(Test-Path $pluginKibanaZip)){
+		Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/$pluginKibana/$pluginKibana-$stackVersion.zip" -OutFile $pluginKibanaZip
+	}
+	if (!(Test-Path "$pluginKibanaZip.sha1")){
+		Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/$pluginKibana/$pluginKibana-$stackVersion.zip.sha1" -OutFile "$pluginKibanaZip.sha1"
+	}
+	Write-Host "Installing Kibana plugin $pluginKibana $stackVersion" -ForeGround Yellow
+	$pluginLocation = $pluginKibanaZip -replace "\\","/"
+	Set-Location -Path "$installLocation\kibana-$stackVersion"
+	bin/kibana-plugin install file:///$pluginLocation
+	if(!($?)){
+		Write-Host "Failed to install" -ForeGround Red
+		Exit(1)
+	}
+}
 Set-Location -Path $PSScriptRoot
 Write-Host "Installation completed" -ForeGround Green
