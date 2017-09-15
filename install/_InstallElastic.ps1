@@ -74,7 +74,7 @@ if (!(Test-Path "$installLocation\elasticsearch-$stackVersion")){
 	Expand-Archive -Path $elasticZip -DestinationPath $installLocation
 	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "node.max_local_storage_nodes: 5"
 	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.graph.enabled: true"
-	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.ml.enabled: true"
+	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.ml.enabled: false"
 	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.monitoring.enabled: false"
 	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.security.enabled: false"
 	Add-Content $installLocation\elasticsearch-$stackVersion\config\elasticsearch.yml "xpack.watcher.enabled: false"
@@ -126,8 +126,9 @@ if ((Get-FileHash -Path $kibanaZip -Algorithm SHA1).Hash -ne (Get-Content "$kiba
 }
 if (!(Test-Path "$installLocation\kibana-$stackVersion-$os")){
 	Expand-Archive -Path $kibanaZip -DestinationPath $installLocation
+	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "tilemap.options.maxZoom: 18"
 	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.graph.enabled: true"
-	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.ml.enabled: true"
+	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.ml.enabled: false"
 	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.monitoring.enabled: false"
 	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.reporting.enabled: false"
 	Add-Content $installLocation\kibana-$stackVersion-$os\config\kibana.yml "xpack.security.enabled: false"
