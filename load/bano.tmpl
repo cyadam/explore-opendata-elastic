@@ -1,0 +1,166 @@
+{
+	"order": 0,
+	"template": "bano",
+	"settings": {
+		"index": {
+			"analysis": {
+				"filter": {
+					"french_stop": {
+						"type": "stop",
+						"stopwords": "_french_"
+					},
+					"edgeGram4x25": {
+						"type": "edgeNGram",
+						"min_gram": "4",
+						"max_gram": "25"
+					},
+					"edgeGram1x10": {
+						"type": "edgeNGram",
+						"min_gram": "1",
+						"max_gram": "25"
+					},
+					"french_stemmer": {
+						"type": "stemmer",
+						"language": "french"
+					},
+					"french_elision": {
+						"type": "elision",
+						"articles": ["l",
+						"m",
+						"t",
+						"qu",
+						"n",
+						"s",
+						"j",
+						"d",
+						"c",
+						"jusqu",
+						"quoiqu",
+						"lorsqu",
+						"puisqu"],
+						"articles_case": "true"
+					}
+				},
+				"analyzer": {
+					"french_heavy": {
+						"filter": ["french_elision",
+						"icu_folding",
+						"french_stop",
+						"french_stemmer",
+						"edgeGram4x25"],
+						"tokenizer": "icu_tokenizer"
+					},
+					"french_basic": {
+						"filter": ["french_elision",
+						"lowercase",
+						"french_stop"],
+						"tokenizer": "standard"
+					},
+					"numero_heavy": {
+						"filter": ["lowercase",
+						"edgeGram1x10"],
+						"tokenizer": "standard"
+					},
+					"numero_basic": {
+						"filter": ["lowercase"],
+						"tokenizer": "standard"
+					},
+					"french_light": {
+						"filter": ["french_elision",
+						"icu_folding",
+						"french_stop",
+						"french_stemmer"],
+						"tokenizer": "icu_tokenizer"
+					}
+				}
+			},
+			"number_of_shards": "4"
+		}
+	},
+	"mappings": {
+		"bano": {
+			"properties": {
+				"location": {
+					"type": "geo_point"
+				},
+				"code_post": {
+					"fielddata": true,
+					"analyzer": "french_basic",
+					"type": "text",
+					"fields": {
+						"french_heavy": {
+							"analyzer": "french_heavy",
+							"type": "text"
+						},
+						"raw": {
+							"type": "keyword"
+						},
+						"french_light": {
+							"fielddata": true,
+							"analyzer": "french_light",
+							"type": "text"
+						}
+					}
+				},
+				"nom_comm": {
+					"fielddata": true,
+					"analyzer": "french_basic",
+					"type": "text",
+					"fields": {
+						"french_heavy": {
+							"analyzer": "french_heavy",
+							"type": "text"
+						},
+						"raw": {
+							"type": "keyword"
+						},
+						"french_light": {
+							"fielddata": true,
+							"analyzer": "french_light",
+							"type": "text"
+						}
+					}
+				},
+				"numero": {
+					"fielddata": true,
+					"type": "text",
+					"analyzer":"numero_basic",
+					"fields": {
+						"raw": {
+							"type": "keyword"
+						},
+						"numero_heavy": {
+							"analyzer": "numero_heavy",
+							"type": "text"
+						}
+					}
+				},
+				"source": {
+					"type": "keyword"
+				},
+				"voie": {
+					"fielddata": true,
+					"analyzer": "french_basic",
+					"type": "text",
+					"fields": {
+						"french_heavy": {
+							"analyzer": "french_heavy",
+							"type": "text"
+						},
+						"raw": {
+							"type": "keyword"
+						},
+						"french_light": {
+							"fielddata": true,
+							"analyzer": "french_light",
+							"type": "text"
+						}
+					}
+				}
+			}
+		}
+	},
+	"aliases": {
+		
+	}
+}

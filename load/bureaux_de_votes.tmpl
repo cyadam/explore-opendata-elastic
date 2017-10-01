@@ -10,8 +10,26 @@
   "mappings": {
     "bureaux_de_votes": {
       "properties": {
+        "adresse": {
+          "type": "keyword"
+        },
+        "code_postal": {
+          "type": "keyword"
+        },
+        "identifiant_du_bureau_de_vote": {
+          "type": "keyword"
+        },
+        "libelle_du_bureau_de_vote": {
+          "type": "keyword"
+        },
         "location": {
           "type": "geo_point"
+        },
+        "numero_du_bureau_de_vote": {
+          "type": "keyword"
+        },
+        "objectid": {
+          "type": "keyword"
         }
       }
     }
