@@ -25,13 +25,13 @@ Write-Host "Getting Logstash $stackVersion" -ForeGround Yellow
 if (!(Test-Path $logstashZip)){
 	Invoke-WebRequest -Uri "$baseUrl/logstash/logstash-$stackVersion.zip" -OutFile $logstashZip
 }
-if (!(Test-Path "$logstashZip.sha1")){
-	Invoke-WebRequest -Uri "$baseUrl/logstash/logstash-$stackVersion.zip.sha1" -OutFile "$logstashZip.sha1"
+if (!(Test-Path "$logstashZip.sha512")){
+	Invoke-WebRequest -Uri "$baseUrl/logstash/logstash-$stackVersion.zip.sha512" -OutFile "$logstashZip.sha512"
 }
 Write-Host "Uncompressing Logstash $stackVersion" -ForeGround Yellow
 $logstashZip = Get-Item "$binariesLocation\logstash-$stackVersion.zip"
-if ((Get-FileHash -Path $logstashZip -Algorithm SHA1).Hash -ne (Get-Content "$logstashZip.sha1")){
-	Write-Host "SHA1 verification failed" -ForeGround Red
+if ((Get-FileHash -Path $logstashZip -Algorithm SHA512).Hash -ne (Get-Content "$logstashZip.sha512")){
+	Write-Host "SHA512 verification failed" -ForeGround Red
 	Exit(1)
 }
 if (!(Test-Path "$installLocation\logstash-$stackVersion")){
@@ -42,8 +42,8 @@ if (!(Test-Path "$installLocation\logstash-$stackVersion")){
 		if (!(Test-Path $xpackLogstashZip)){
 			Invoke-WebRequest -Uri "$baseUrl/logstash-plugins/x-pack/x-pack-$stackVersion.zip" -OutFile $xpackLogstashZip
 		}
-		if (!(Test-Path "$xpackLogstashZip.sha1")){
-			Invoke-WebRequest -Uri "$baseUrl/logstash-plugins/x-pack/x-pack-$stackVersion.zip.sha1" -OutFile "$xpackLogstashZip.sha1"
+		if (!(Test-Path "$xpackLogstashZip.sha512")){
+			Invoke-WebRequest -Uri "$baseUrl/logstash-plugins/x-pack/x-pack-$stackVersion.zip.sha512" -OutFile "$xpackLogstashZip.sha512"
 		}
 		Write-Host "Installing Logstash X-Pack $stackVersion" -ForeGround Yellow
 		$pluginLocation = $xpackLogstashZip -replace "\\","/"
@@ -79,13 +79,13 @@ Write-Host "Getting Elasticsearch $stackVersion" -ForeGround Yellow
 if (!(Test-Path $elasticZip)){
 	Invoke-WebRequest -Uri "$baseUrl/elasticsearch/elasticsearch-$stackVersion.zip" -OutFile $elasticZip
 }
-if (!(Test-Path "$elasticZip.sha1")){
-	Invoke-WebRequest -Uri "$baseUrl/elasticsearch/elasticsearch-$stackVersion.zip.sha1" -OutFile "$elasticZip.sha1"
+if (!(Test-Path "$elasticZip.sha512")){
+	Invoke-WebRequest -Uri "$baseUrl/elasticsearch/elasticsearch-$stackVersion.zip.sha512" -OutFile "$elasticZip.sha512"
 }
 Write-Host "Uncompressing Elasticsearch $stackVersion" -ForeGround Yellow
 $elasticZip = Get-Item "$binariesLocation\elasticsearch-$stackVersion.zip"
-if ((Get-FileHash -Path $elasticZip -Algorithm SHA1).Hash -ne (Get-Content "$elasticZip.sha1")){
-	Write-Host "SHA1 verification failed" -ForeGround Red
+if ((Get-FileHash -Path $elasticZip -Algorithm SHA512).Hash -ne (Get-Content "$elasticZip.sha512")){
+	Write-Host "SHA512 verification failed" -ForeGround Red
 	Exit(1)
 }
 if (!(Test-Path "$installLocation\elasticsearch-$stackVersion")){
@@ -97,8 +97,8 @@ if (!(Test-Path "$installLocation\elasticsearch-$stackVersion")){
 		if (!(Test-Path $xpackElasticsearchZip)){
 			Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/x-pack/x-pack-$stackVersion.zip" -OutFile $xpackElasticsearchZip
 		}
-		if (!(Test-Path "$xpackElasticsearchZip.sha1")){
-			Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/x-pack/x-pack-$stackVersion.zip.sha1" -OutFile "$xpackElasticsearchZip.sha1"
+		if (!(Test-Path "$xpackElasticsearchZip.sha512")){
+			Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/x-pack/x-pack-$stackVersion.zip.sha512" -OutFile "$xpackElasticsearchZip.sha512"
 		}
 		Write-Host "Installing Elasticsearch X-Pack $stackVersion" -ForeGround Yellow
 		$pluginLocation = $xpackElasticsearchZip -replace "\\","/"
@@ -121,8 +121,8 @@ foreach ($pluginElasticsearch in $params.stack.plugins.elasticsearch) {
 	if (!(Test-Path $pluginElasticsearchZip)){
 		Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/$pluginElasticsearch/$pluginElasticsearch-$stackVersion.zip" -OutFile $pluginElasticsearchZip
 	}
-	if (!(Test-Path "$pluginElasticsearchZip.sha1")){
-		Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/$pluginElasticsearch/$pluginElasticsearch-$stackVersion.zip.sha1" -OutFile "$pluginElasticsearchZip.sha1"
+	if (!(Test-Path "$pluginElasticsearchZip.sha512")){
+		Invoke-WebRequest -Uri "$baseUrl/elasticsearch-plugins/$pluginElasticsearch/$pluginElasticsearch-$stackVersion.zip.sha512" -OutFile "$pluginElasticsearchZip.sha512"
 	}
 	Write-Host "Installing Elasticsearch plugin $pluginElasticsearch $stackVersion" -ForeGround Yellow
 	$pluginLocation = $pluginElasticsearchZip -replace "\\","/"
@@ -151,13 +151,13 @@ Write-Host "Getting Kibana $stackVersion" -ForeGround Yellow
 if (!(Test-Path $kibanaZip)){
 	Invoke-WebRequest -Uri "$baseUrl/kibana/kibana-$stackVersion-$os.zip" -OutFile $kibanaZip
 }
-if (!(Test-Path "$kibanaZip.sha1")){
-	Invoke-WebRequest -Uri "$baseUrl/kibana/kibana-$stackVersion-$os.zip.sha1" -OutFile "$kibanaZip.sha1"
+if (!(Test-Path "$kibanaZip.sha512")){
+	Invoke-WebRequest -Uri "$baseUrl/kibana/kibana-$stackVersion-$os.zip.sha512" -OutFile "$kibanaZip.sha512"
 }
 Write-Host "Uncompressing Kibana $stackVersion" -ForeGround Yellow
 $kibanaZip = Get-Item "$binariesLocation\kibana-$stackVersion-$os.zip"
-if ((Get-FileHash -Path $kibanaZip -Algorithm SHA1).Hash -ne (Get-Content "$kibanaZip.sha1")){
-	Write-Host "SHA1 verification failed" -ForeGround Red
+if ((Get-FileHash -Path $kibanaZip -Algorithm SHA512).Hash -ne (Get-Content "$kibanaZip.sha512")){
+	Write-Host "SHA512 verification failed" -ForeGround Red
 	Exit(1)
 }
 if (!(Test-Path "$installLocation\kibana-$stackVersion-$os")){
@@ -169,8 +169,8 @@ if (!(Test-Path "$installLocation\kibana-$stackVersion-$os")){
 		if (!(Test-Path $xpackKibanaZip)){
 			Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/x-pack/x-pack-$stackVersion.zip" -OutFile $xpackKibanaZip
 		}
-		if (!(Test-Path "$xpackKibanaZip.sha1")){
-			Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/x-pack/x-pack-$stackVersion.zip.sha1" -OutFile "$xpackKibanaZip.sha1"
+		if (!(Test-Path "$xpackKibanaZip.sha512")){
+			Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/x-pack/x-pack-$stackVersion.zip.sha512" -OutFile "$xpackKibanaZip.sha512"
 		}
 		Write-Host "Installing Kibana X-Pack $stackVersion" -ForeGround Yellow
 		$pluginLocation = $xpackKibanaZip -replace "\\","/"
@@ -193,8 +193,8 @@ foreach ($pluginKibana in $params.stack.plugins.kibana) {
 	if (!(Test-Path $pluginKibanaZip)){
 		Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/$pluginKibana/$pluginKibana-$stackVersion.zip" -OutFile $pluginKibanaZip
 	}
-	if (!(Test-Path "$pluginKibanaZip.sha1")){
-		Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/$pluginKibana/$pluginKibana-$stackVersion.zip.sha1" -OutFile "$pluginKibanaZip.sha1"
+	if (!(Test-Path "$pluginKibanaZip.sha512")){
+		Invoke-WebRequest -Uri "$baseUrl/kibana-plugins/$pluginKibana/$pluginKibana-$stackVersion.zip.sha512" -OutFile "$pluginKibanaZip.sha512"
 	}
 	Write-Host "Installing Kibana plugin $pluginKibana $stackVersion" -ForeGround Yellow
 	$pluginLocation = $pluginKibanaZip -replace "\\","/"
