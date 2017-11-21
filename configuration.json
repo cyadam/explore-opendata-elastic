@@ -2,8 +2,8 @@
 	"stack": {
 		"install": "C:\\elastic",
 		"binaries": "C:\\elastic\\binaries",
-		"version": "5.6.2",
-		"os":"windows-x86",
+		"version": "6.0.0",
+		"os":"windows-x86_64",
 		"url": "https://artifacts.elastic.co/downloads",
 		"xpack": false,
 		"plugins": {
@@ -13,7 +13,7 @@
 		}
 	},
 	"cerebro": {
-		"version": "0.6.7",
+		"version": "0.7.1",
 		"url": "https://github.com/lmenezes/cerebro/releases/download"
 	},
 	"java": {

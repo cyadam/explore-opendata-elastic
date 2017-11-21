@@ -30,7 +30,7 @@ if (!(Test-Path "$logstashZip.sha512")){
 }
 Write-Host "Uncompressing Logstash $stackVersion" -ForeGround Yellow
 $logstashZip = Get-Item "$binariesLocation\logstash-$stackVersion.zip"
-if ((Get-FileHash -Path $logstashZip -Algorithm SHA512).Hash -ne (Get-Content "$logstashZip.sha512")){
+if ((Get-FileHash -Path $logstashZip -Algorithm SHA512).Hash -ne (Get-Content "$logstashZip.sha512").Split(" ")[0]){
 	Write-Host "SHA512 verification failed" -ForeGround Red
 	Exit(1)
 }
@@ -84,7 +84,7 @@ if (!(Test-Path "$elasticZip.sha512")){
 }
 Write-Host "Uncompressing Elasticsearch $stackVersion" -ForeGround Yellow
 $elasticZip = Get-Item "$binariesLocation\elasticsearch-$stackVersion.zip"
-if ((Get-FileHash -Path $elasticZip -Algorithm SHA512).Hash -ne (Get-Content "$elasticZip.sha512")){
+if ((Get-FileHash -Path $elasticZip -Algorithm SHA512).Hash -ne (Get-Content "$elasticZip.sha512").Split(" ")[0]){
 	Write-Host "SHA512 verification failed" -ForeGround Red
 	Exit(1)
 }
@@ -156,7 +156,7 @@ if (!(Test-Path "$kibanaZip.sha512")){
 }
 Write-Host "Uncompressing Kibana $stackVersion" -ForeGround Yellow
 $kibanaZip = Get-Item "$binariesLocation\kibana-$stackVersion-$os.zip"
-if ((Get-FileHash -Path $kibanaZip -Algorithm SHA512).Hash -ne (Get-Content "$kibanaZip.sha512")){
+if ((Get-FileHash -Path $kibanaZip -Algorithm SHA512).Hash -ne (Get-Content "$kibanaZip.sha512").Split(" ")[0]){
 	Write-Host "SHA512 verification failed" -ForeGround Red
 	Exit(1)
 }
