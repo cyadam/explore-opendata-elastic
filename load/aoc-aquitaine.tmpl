@@ -1,0 +1,89 @@
+{
+  "order": 0,
+  "template": "aoc-aquitaine*",
+  "settings": {
+    "index": {
+      "number_of_shards": "1",
+      "number_of_replicas": "0"
+    }
+  },
+  "mappings": {
+    "aoc-aquitaine": {
+      "properties": {
+        "DATE_DERNIERE_MAJ": {
+          "type": "date"
+        },
+        "TYPE": {
+          "type": "keyword"
+        },
+        "NOM_OFFRE": {
+          "type": "keyword"
+        },
+        "PORTE_ESCALIER": {
+          "type": "keyword"
+        },
+        "BATIMENT_RESIDENCE": {
+          "type": "keyword"
+        },
+        "RUE": {
+          "type": "keyword"
+        },
+        "LIEUDIT_BP": {
+          "type": "keyword"
+        },
+        "CODE_POSTAL": {
+          "type": "keyword"
+        },
+        "COMMUNE": {
+          "type": "keyword"
+        },
+        "COMMUNE_INSEE": {
+          "type": "keyword"
+        },
+        "TEL": {
+          "type": "keyword"
+        },
+        "TEL_MOB": {
+          "type": "keyword"
+        },
+        "SITE_WEB": {
+          "type": "keyword"
+        },
+        "location": {
+          "type": "geo_point"
+        },
+        "GEOLOC_MANUELLE": {
+          "type": "boolean"
+        },
+        "INFOS_COMPLEMENTAIRES": {
+          "type": "keyword"
+        },
+        "LABEL_TOURISME_HANDICAP": {
+          "type": "keyword"
+        },
+        "MARQUES_LABELS": {
+          "type": "keyword"
+        },
+        "OUVERTURE": {
+          "type": "keyword"
+        },
+        "TARIFS": {
+          "type": "keyword"
+        },
+        "VISITE_CONDITIONS_IND": {
+          "type": "keyword"
+        },
+        "VISITE_LANGUES_PARLEES": {
+          "type": "keyword"
+        },
+        "EQUIPEMENTS": {
+          "type": "keyword"
+        },
+        "SERVICES": {
+          "type": "keyword"
+        }
+      }
+    }
+  },
+  "aliases": {}
+}
