@@ -127,10 +127,12 @@ foreach ($pluginElasticsearch in $params.stack.plugins.elasticsearch) {
 	Write-Host "Installing Elasticsearch plugin $pluginElasticsearch $stackVersion" -ForeGround Yellow
 	$pluginLocation = $pluginElasticsearchZip -replace "\\","/"
 	Set-Location -Path "$installLocation\elasticsearch-$stackVersion"
-	bin/elasticsearch-plugin install file:///$pluginLocation
-	if(!($?)){
-		Write-Host "Failed to install" -ForeGround Red
-		Exit(1)
+	if (!(Test-Path "$installLocation\elasticsearch-$stackVersion\plugins\$pluginElasticsearch")){
+		bin/elasticsearch-plugin install file:///$pluginLocation
+		if(!($?)){
+			Write-Host "Failed to install" -ForeGround Red
+			Exit(1)
+		}
 	}
 }
 Set-Location -Path $PSScriptRoot
@@ -138,6 +140,7 @@ Set-Location -Path $PSScriptRoot
 $cerebroZip = "$binariesLocation\cerebro-$cerebroVersion.zip"
 Write-Host "Getting Cerebro $cerebroVersion" -ForeGround Yellow
 if (!(Test-Path $cerebroZip)){
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 	Invoke-WebRequest -Uri "$cerebroUrl/v$cerebroVersion/cerebro-$cerebroVersion.zip" -OutFile $cerebroZip
 }
 Write-Host "Uncompressing Cerebro $cerebroVersion" -ForeGround Yellow
