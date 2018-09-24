@@ -4,23 +4,85 @@
   "settings": {
     "index": {
       "number_of_shards": 1,
-	  "number_of_replicas": 0
+      "number_of_replicas": 0
+    },
+    "analysis": {
+      "filter": {
+        "edgeNgramEnd2": {
+          "type": "edgeNGram",
+          "min_gram": "2",
+          "max_gram": "2",
+          "side": "back"
+        },
+        "french_stop": {
+          "type": "stop",
+          "stopwords": "_french_"
+        },
+        "french_stemmer": {
+          "type": "stemmer",
+          "language": "french"
+        }
+      },
+      "analyzer": {
+        "arrondissement": {
+          "type": "custom",
+          "tokenizer": "keyword",
+          "filter": [
+            "edgeNgramEnd2"
+          ]
+        },
+        "french": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "french_stop",
+            "french_stemmer"
+          ]
+        }
+      }
     }
   },
   "mappings": {
     "bureaux_de_votes": {
       "properties": {
         "adresse": {
-          "type": "keyword"
+          "type": "keyword",
+          "fields": {
+            "analyzed": {
+              "type": "text"
+            },
+            "standard": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "standard"
+            }
+          }
         },
         "code_postal": {
-          "type": "keyword"
+          "type": "keyword",
+          "fields": {
+            "arrondissement": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "arrondissement"
+            }
+          }
         },
         "identifiant_du_bureau_de_vote": {
           "type": "keyword"
         },
         "libelle_du_bureau_de_vote": {
-          "type": "keyword"
+          "type": "keyword",
+          "fields": {
+            "analyzed": {
+              "type": "text"
+            },
+            "french": {
+              "fielddata": true,
+              "type": "text",
+              "analyzer": "french"
+            }
+          }
         },
         "location": {
           "type": "geo_point"
