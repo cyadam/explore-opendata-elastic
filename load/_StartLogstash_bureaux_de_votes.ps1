@@ -3,7 +3,7 @@ Set-Location -Path $PSScriptRoot
 $params = Get-Content "..\configuration.json" | ConvertFrom-Json
 $donnees = "bureaux_de_votes"
 Write-Host "Loading $donnees" -ForeGround Green
-$donneesUrl = "https://opendata.paris.fr/explore/dataset/bureaux-de-votes/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true"
+$donneesUrl = "https://opendata.paris.fr/explore/dataset/bureaux-de-votes/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=false"
 $stackVersion = $params.stack.version
 $javaHome = $params.java.home
 $env:JAVA_HOME = "$javaHome"
